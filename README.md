@@ -1,4 +1,4 @@
-# react-client-session
+# react-session
 
 [![npm version](https://badge.fury.io/js/react-client-session.svg)](https://badge.fury.io/js/react-client-session)
 
@@ -12,7 +12,7 @@ npm install react-client-session --save
 
 ## Usage
 
-A simple example. Download and run the demo for more examples, or browse the [examples here]( http://grizzthedj.github.io/react-client-session/demo/public).
+A simple example. Download and run the demo for more examples, or browse the [examples here]( http://grizzthedj.github.io/react-session/demo/public).
 
 1. Optionally set the storage type in the base App, and create a key value pair ... for example, `username`. 
 
@@ -62,8 +62,8 @@ export default Simple;
 ## Download Examples
 
 ```js
-git clone https://github.com/grizzthedj/react-client-session.git
-cd react-client-session
+git clone https://github.com/grizzthedj/react-session.git
+cd react-session
 npm install
 gulp demo
 Browse http://localhost:8080
