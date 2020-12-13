@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import App from './App';
 
 render((
-  <BrowserRouter basename="/react-client-session/demo/public">
+  <BrowserRouter basename="/react-session/demo/public">
     <App />
   </BrowserRouter>
 ), document.getElementById('app'))
