@@ -177,6 +177,7 @@ var ReactSession = (function () {
   }
 
   return {
+    getCookie: getCookie,
     setStoreType: setStoreType,
     remove: remove,
     get: get,
