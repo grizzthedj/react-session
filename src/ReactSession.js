@@ -1,9 +1,8 @@
 import React from 'react';
 
 var ReactSession = (function () {
-  const __COOKIE_DOMAIN = window.location.hostname; 
-  const __COOKIE_NAME = "__react_session_" + __COOKIE_DOMAIN.toLowerCase() + "__";
-  const __COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
+  const SESSION_OBJECT_NAME = "__react_session__";
+  const COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
   var SessionWriter = MemoryWriter;
   var sessionData = {};
 
@@ -57,31 +56,31 @@ var ReactSession = (function () {
 
   var LocalStorageWriter = {
     set: function(key, value) {
-      localStorage.setItem(key, value);
+      setItem(localStorage, key, value);
     },
     get: function(key) {
-      return localStorage.getItem(key);
+      return getItem(localStorage, key);
     },
     remove: function(key) {
-      localStorage.removeItem(key);
+      removeItem(localStorage, key);
     }
   }
 
   var SessionStorageWriter = {
     set: function(key, value) {
-      sessionStorage.setItem(key, value);
+      setItem(sessionStorage, key, value);
     },
     get: function(key) {
-      return sessionStorage.getItem(key);
+      return getItem(sessionStorage, key);
     },
     remove: function(key) {
-      sessionStorage.removeItem(key);
+      removeItem(sessionStorage, key);
     }
   }
 
   var CookieWriter = {
     set: function(key, value) {
-      setCookieParam(key, value, __COOKIE_EXPIRATION_DAYS);
+      setCookieParam(key, value, COOKIE_EXPIRATION_DAYS);
     },
     get: function(key) {
       return getCookieParam(key);
@@ -91,6 +90,32 @@ var ReactSession = (function () {
     }
   }
 
+  var setItem = function(storageObject, key, value) {
+    const item = getStorageItem(storageObject);
+    item[key] = value;
+    setStorageItem(storageObject, item);
+  }
+
+  var getItem = function(storageObject, key) {
+    const item = getStorageItem(storageObject);
+    return item[key];
+  }
+
+  var removeItem = function(storageObject, key) {
+    const item = getStorageItem(storageObject);
+    delete item[key];
+    setStorageItem(storageObject, item);
+  }
+
+  var getStorageItem = function(storageObject) {
+    const item = storageObject.getItem(SESSION_OBJECT_NAME);
+    return item ? JSON.parse(item) : {};
+  }
+
+  var setStorageItem = function(storageObject, item) {
+    storageObject.setItem(SESSION_OBJECT_NAME, JSON.stringify(item));
+  }
+
   var getUpdatedTime = function(numDays) {
     var now = new Date();
     now.setTime(now.getTime() + (numDays * 24 * 60 * 60 * 1000));
@@ -98,8 +123,8 @@ var ReactSession = (function () {
   }
 
   var setCookieParam = function(key, value, numDays) {
-    var expires = "expires=" + getUpdatedTime(__COOKIE_EXPIRATION_DAYS);
-    var existingCookie = getCookie(__COOKIE_NAME);
+    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+    var existingCookie = getCookie(SESSION_OBJECT_NAME);
     var cookieJson = {};
 
     if (existingCookie) {
@@ -108,13 +133,13 @@ var ReactSession = (function () {
 
     cookieJson[key] = value;
 
-    var cookieStr = __COOKIE_NAME + "=" + JSON.stringify(cookieJson) + ";";
+    var cookieStr = SESSION_OBJECT_NAME + "=" + JSON.stringify(cookieJson) + ";";
     cookieStr += expires + ";path=/";
     document.cookie = cookieStr;
   }
 
   var getCookieParam = function(key) {
-    const cookieParam = JSON.parse(getCookie(__COOKIE_NAME));
+    const cookieParam = JSON.parse(getCookie(SESSION_OBJECT_NAME));
     return cookieParam[key];
   }
 
@@ -137,8 +162,8 @@ var ReactSession = (function () {
   }
 
   var deleteCookieParam = function(key) {
-    var expires = "expires=" + getUpdatedTime(__COOKIE_EXPIRATION_DAYS);
-    var existingCookie = getCookie(__COOKIE_NAME);
+    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+    var existingCookie = getCookie(SESSION_OBJECT_NAME);
     var cookieJson = {};
     
     if (existingCookie) {
@@ -146,7 +171,7 @@ var ReactSession = (function () {
       delete cookieJson[key]; 
     }
 
-    var cookieStr = __COOKIE_NAME + "=" + JSON.stringify(cookieJson) + ";";
+    var cookieStr = SESSION_OBJECT_NAME + "=" + JSON.stringify(cookieJson) + ";";
     cookieStr += expires + ";path=/";
     document.cookie = cookieStr;
   }
