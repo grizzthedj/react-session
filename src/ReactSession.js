@@ -3,7 +3,7 @@ import React from 'react';
 var ReactSession = (function () {
   const SESSION_OBJECT_NAME = "__react_session__";
   const COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
-  var SessionWriter = MemoryWriter;
+  var SessionWriter = null;
   var sessionData = {};
 
   var get = function(key) {
@@ -89,6 +89,8 @@ var ReactSession = (function () {
       deleteCookieParam(key);
     }
   }
+
+  SessionWriter = MemoryWriter;
 
   var setItem = function(storageObject, key, value) {
     const item = getStorageItem(storageObject);

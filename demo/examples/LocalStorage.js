@@ -78,7 +78,7 @@ class LocalStorage extends React.Component {
             &nbsp;&nbsp;&nbsp;&nbsp;this.handleChange = this.handleChange.bind(this);<br />
             &nbsp;&nbsp;&nbsp;&nbsp;this.clear = this.clear.bind(this);<br />
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;ReactSession.setStoreType("localStorage");
+            &nbsp;&nbsp;&nbsp;&nbsp;ReactSession.setStoreType("localStorage");<br />
             &nbsp;&nbsp;&#125;<br />
             <br />
             &nbsp;&nbsp;setUsername(event) &#123;<br />
