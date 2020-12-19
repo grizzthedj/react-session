@@ -1,6 +1,6 @@
 {
   "name": "react-client-session",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "description": "A simple object to manage a client session in a React app",
   "main": "dist/App.js",
   "scripts": {
