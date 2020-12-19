@@ -11,6 +11,8 @@ class Memory extends React.Component {
     }
     this.setUsername = this.setUsername.bind(this);
     this.handleChange = this.handleChange.bind(this);
+
+    ReactSession.setStoreType("memory");
   }
 
   setUsername(event) {
