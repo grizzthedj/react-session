@@ -14,9 +14,9 @@ npm install react-client-session --save
 
 A simple example. Download and run the demo for more examples, or browse the [examples here]( http://grizzthedj.github.io/react-session/demo/public).
 
-1. Optionally set the storage type in the base App, and create a key value pair ... for example, `username`. 
+1. Set the storage type in the base App, and create a key value pair ... for example, `username`. 
 
-Supported storage types are `memory`(default), `cookie`, `localStorage` and `sessionStorage`.
+Supported storage types are `memory`, `cookie`, `localStorage` and `sessionStorage`.
 
 _*NOTE: When using `cookie` store type, all key value pairs that are set via `ReactSession.set(key, value);` are serialized as JSON in to one single cookie called `__react_session_<DOMAIN>`*_
 
