@@ -54,7 +54,7 @@ function MyComponent() {
   )
 }
 
-export default Simple;
+export default MyComponent;
 ```
 
 ## Download Examples
