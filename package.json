@@ -3,6 +3,8 @@
   "version": "0.0.8",
   "description": "A simple object to manage a client session in a React app",
   "main": "dist/App.js",
+  "module": "dist/App.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "jest",
     "git-deploy": "gulp build && gh-pages -d demo/public"
@@ -47,5 +49,9 @@
   },
   "jest": {
     "verbose": true
+  },
+  "compilerOptions": {
+    "composite": true,
+    "declarationMap": true
   }
 }
