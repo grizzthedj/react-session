@@ -23,21 +23,19 @@ _*NOTE: When using `cookie` store type, all key value pairs that are set via `Re
 ```js
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import ReactSession from 'react-client-session';
+import { ReactSession } from 'react-client-session';
 
-class App extends React.Component {
-  render() {
-    ReactSession.setStoreType("localStorage");
-    ReactSession.set("username", "Bob");
+function App() {
+  ReactSession.setStoreType("localStorage");
+  ReactSession.set("username", "Bob");
 
-    return (
-      <div>
-        <Switch>
-          // Routes 
-        </Switch>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Switch>
+        // Routes 
+      </Switch>
+    </div>
+  );
 }
 
 export default App;
@@ -46,14 +44,14 @@ export default App;
 
 ```js
 import React from 'react';
-import ReactSession from 'react-client-session';
+import { ReactSession } from 'react-client-session';
 
-class Simple extends React.Component {
-  render() {
-    return (
-      <p>User Name is: {ReactSession.get("username")}</p>
-    )
-  }
+function MyComponent() {
+  const username = ReactSession.get("username");
+
+  return (
+    <p>User Name is: {username}</p>
+  )
 }
 
 export default Simple;
