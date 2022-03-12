@@ -23,7 +23,7 @@ _*NOTE: When using `cookie` store type, all key value pairs that are set via `Re
 ```js
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { ReactSession } from 'react-client-session';
+import ReactSession from 'react-client-session';
 
 function App() {
   ReactSession.setStoreType("localStorage");
@@ -44,7 +44,7 @@ export default App;
 
 ```js
 import React from 'react';
-import { ReactSession } from 'react-client-session';
+import ReactSession from 'react-client-session';
 
 function MyComponent() {
   const username = ReactSession.get("username");
