@@ -2,7 +2,7 @@ import React from 'react';
 
 var ReactSession = (function () {
   const SESSION_OBJECT_NAME = "__react_session__";
-  const COOKIE_EXPIRATION_DAYS = 2147483647000;
+  const COOKIE_EXPIRATION_DAYS = 9;
   var SessionWriter = null;
   var sessionData = {};
 
@@ -78,11 +78,25 @@ var ReactSession = (function () {
     }
   }
 
+  var getMaxNumberOfDays = function () {
+    var now = new Date().getTime(),
+    hours = 24,
+    minutes = 60,
+    seconds = 60,
+    milliseconds = 1000,
+    day = hours * minutes * seconds * milliseconds;
+    /** Expiration intended to be indefinite by default 'Tue Jan 19 2038' - 
+        The maximum value compatible with 32 bits systems for reference: https://stackoverflow.com/a/22479460/5035986 */
+    var maxTimePossible = 2147483647000; // 'Tue Jan 19 2038'
+  
+    return Math.floor((maxTimePossible - now) / day);
+  };
+
   var CookieWriter = {
     expirationInDays: getMaxNumberOfDays(),
     set: function(key, value, numDays) {
-      this.expirationInDays =  numDays;
-      setCookieParam(key, value, this.expirationDays);
+      if (numDays) this.expirationInDays =  numDays;
+      setCookieParam(key, value, this.expirationInDays);
     },
     get: function(key) {
       return getCookieParam(key);
@@ -125,20 +139,6 @@ var ReactSession = (function () {
     now.setTime(now.getTime() + (numDays * 24 * 60 * 60 * 1000));
     return now.toUTCString();
   }
-
-  var getMaxNumberOfDays = function () {
-    var now = new Date(),
-    hours = 24,
-    minutes = 60,
-    seconds = 60,
-    milliseconds = 1000,
-    day = hours * minutes * seconds * milliseconds;
-    /** Expiration intended to be indefinite by default 'Tue Jan 19 2038' - 
-        The maximum value compatible with 32 bits systems for reference: https://stackoverflow.com/a/22479460/5035986 */
-    var maxTimePossible = 2147483647000; // 'Tue Jan 19 2038'
-  
-    return (now - maxTimePossible) / day;
-  };
 
   var setCookieParam = function(key, value, numDays) {
     var expires = "expires=" + getUpdatedTime(numDays);
