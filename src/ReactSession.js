@@ -2,7 +2,6 @@ import React from 'react';
 
 var ReactSession = (function () {
   const SESSION_OBJECT_NAME = "__react_session__";
-  const COOKIE_EXPIRATION_DAYS = 9;
   var SessionWriter = null;
   var sessionData = {};
 
