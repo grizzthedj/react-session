@@ -85,7 +85,7 @@ class Cookie extends React.Component {
             <br />
             &nbsp;&nbsp;setUsername(event) &#123;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;event.preventDefault();<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;ReactSession.set("username", this.state.username);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;ReactSession.set("username", this.state.username); //Number of expiration days can be given as a third argument.<br />
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;this.setState(&#123;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sessionUsername: "User Name is: " + ReactSession.get("username")<br />
