@@ -2,7 +2,7 @@ import React from 'react';
 
 var ReactSession = (function () {
   const SESSION_OBJECT_NAME = "__react_session__";
-  const COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
+  const COOKIE_EXPIRATION_DAYS = 2147483647000;
   var SessionWriter = null;
   var sessionData = {};
 
@@ -10,8 +10,8 @@ var ReactSession = (function () {
     return SessionWriter.get(key);
   };
 
-  var set = function(key, value) {
-    SessionWriter.set(key, value);
+  var set = function(key, value, expirationDays) {
+    SessionWriter.set(key, value, expirationDays);
   };
 
   var remove = function(key) {
@@ -79,15 +79,17 @@ var ReactSession = (function () {
   }
 
   var CookieWriter = {
-    set: function(key, value) {
-      setCookieParam(key, value, COOKIE_EXPIRATION_DAYS);
+    expirationInDays: getMaxNumberOfDays(),
+    set: function(key, value, numDays) {
+      this.expirationInDays =  numDays;
+      setCookieParam(key, value, this.expirationDays);
     },
     get: function(key) {
       return getCookieParam(key);
     },
     remove: function(key) {
-      deleteCookieParam(key);
-    }
+      deleteCookieParam(key, this.expirationInDays);
+    },
   }
 
   SessionWriter = MemoryWriter;
@@ -124,8 +126,22 @@ var ReactSession = (function () {
     return now.toUTCString();
   }
 
+  var getMaxNumberOfDays = function () {
+    var now = new Date(),
+    hours = 24,
+    minutes = 60,
+    seconds = 60,
+    milliseconds = 1000,
+    day = hours * minutes * seconds * milliseconds;
+    /** Expiration intended to be indefinite by default 'Tue Jan 19 2038' - 
+        The maximum value compatible with 32 bits systems for reference: https://stackoverflow.com/a/22479460/5035986 */
+    var maxTimePossible = 2147483647000; // 'Tue Jan 19 2038'
+  
+    return (now - maxTimePossible) / day;
+  };
+
   var setCookieParam = function(key, value, numDays) {
-    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+    var expires = "expires=" + getUpdatedTime(numDays);
     var existingCookie = getCookie(SESSION_OBJECT_NAME);
     var cookieJson = {};
 
@@ -163,8 +179,8 @@ var ReactSession = (function () {
     return "";
   }
 
-  var deleteCookieParam = function(key) {
-    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+  var deleteCookieParam = function(key, numDays) {
+    var expires = "expires=" + getUpdatedTime(numDays);
     var existingCookie = getCookie(SESSION_OBJECT_NAME);
     var cookieJson = {};
     
